@@ -18,8 +18,9 @@ def retry(max_retry: int = 3,delay: float = 1.0):
             for i in range(max_retry):
                 try:
                     return func(*args, **kwargs)
-                finally:
+                except Exception as e:
                     print(f"the {i} time to retry {func.__name__} but failed")
+                    print(f"error: {e}")
                     time.sleep(delay)
         return wrapper
     return decorator
