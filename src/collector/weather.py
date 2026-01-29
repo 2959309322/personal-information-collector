@@ -40,15 +40,15 @@ def get_rt_weather_single(city_name):
         data = response.json()
         if data.get("code") == "200":#用get如果不存在会返回None，不会崩溃更安全
             keys = ["temp", "feelsLike", "text", "windDir", "vis"]
-            info = {}
-            info["city"] = city_name
+            info = [{}]
+            info[0]["city"] = city_name
             if(data.get("updateTime")):
                 temp = data["updateTime"]
                 t1 = (temp.split("T"))
-                info["date"] = t1[0]
-                info["update_time"] = t1[1]
+                info[0]["date"] = t1[0]
+                info[0]["update_time"] = t1[1]
             else: print("no UpdateTime")
-            info.update({key: data["now"][key] for key in keys if key in data["now"]})
+            info[0].update({key: data["now"][key] for key in keys if key in data["now"]})
             return info
         else:
             print(f"requests_error_code: {data.get('code')}")
@@ -63,28 +63,29 @@ def get_rt_weather_batch(city_name):
     url = f"https://{API_HOST}/v7/weather/now/"
     params = {id:{"location": id, "key":API_KEY, "range":"cn"} for id in city_id}
     index = 0
-    info = {}
+    tot_info = []
     for param in params:
+        info = {}
         try:
             response = requests.get(url, params=params[param], timeout=5)
             response.raise_for_status()
             data = response.json()
             if data.get("code") == "200":  # 用get如果不存在会返回None，不会崩溃更安全
                 keys = ["temp", "feelsLike", "text", "windDir", "vis"]
-                nc = city_name[index]
-                info[nc] = {}
+                info['city'] = city_name[index]
                 if (data.get("updateTime")):
                     temp = data["updateTime"]
                     t1 = (temp.split("T"))
-                    info[nc]["date"] = t1[0]
-                    info[nc]["update_time"] = t1[1]
+                    info["date"] = t1[0]
+                    info["update_time"] = t1[1]
                 else:
                     print("no UpdateTime")
-                info[nc].update({key: data["now"][key] for key in keys if key in data["now"]})
+                info.update({key: data["now"][key] for key in keys if key in data["now"]})
             else:
                 print(f"requests_error_code: {data.get('code')}")
                 print(f"failed to get {city_name[index]}'s weather info")
         except Exception as e:
             print(f"error: {e}")
         index += 1
-    return info
+        tot_info.append(info)
+    return tot_info
