@@ -1,5 +1,21 @@
 import time
 from functools import wraps
+from dataclasses import dataclass
+
+@dataclass
+class hotdata:
+    name: str
+    rank: int
+    url: str
+    info: dict
+
+class collector:
+    def __init__(self, source:str):
+        self.source = source
+
+    def collect(self) -> list[hotdata]:
+        pass
+
 def timer(func):
     @wraps
     def wrapper(*args, **kwargs):
