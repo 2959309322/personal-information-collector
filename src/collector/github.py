@@ -96,7 +96,7 @@ class github(base.collector):
                 # 这种后缀表达式还挺新奇的
                 repo_url = "https://github.com" + project_tag['href'] if project_tag.get('href') else ""
 
-                projects.append(base.CollectedRecord(
+                projects.append(base.hotdata(
                     name = project_name,
                     rank = idx,
                     url = repo_url,
