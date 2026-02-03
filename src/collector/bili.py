@@ -1,6 +1,6 @@
 import base
 import requests
-
+from datetime import date
 class bili(base.collector):
     """
     该类用于获取bilibili热门榜单\n
@@ -21,14 +21,14 @@ class bili(base.collector):
         self.url = "https://api.bilibili.com/x/web-interface/ranking/v2"
 
     def collect(self):
-        global cards
         try:
-            response = requests.get(self.url, self.headers, timeout=5)
+            response = requests.get(self.url, headers=self.headers, timeout=5)
             cards = response.json()
             response.raise_for_status()
 
         except Exception as e:
             print(f"get json error:{e}")
+            return None
         videos = []
         for idx, card in enumerate(cards['data']['list'], 1):
             try:
@@ -41,6 +41,7 @@ class bili(base.collector):
                 share = card.get('stat').get('share')
                 url = card.get('short_link_v2')
                 videos.append(base.hotdata(
+                    date=date.today(),
                     name=title,
                     rank=rank,
                     url=url,

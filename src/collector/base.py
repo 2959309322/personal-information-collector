@@ -1,9 +1,12 @@
 import time
 from functools import wraps
 from dataclasses import dataclass
+from datetime import date
 
 @dataclass
 class hotdata:
+    date: date
+    name: str
     name: str
     rank: int
     url: str

@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import base
+from datetime import date
 
 class github(base.collector):
     """
@@ -97,6 +98,7 @@ class github(base.collector):
                 repo_url = "https://github.com" + project_tag['href'] if project_tag.get('href') else ""
 
                 projects.append(base.hotdata(
+                    date = date.today(),
                     name = project_name,
                     rank = idx,
                     url = repo_url,
