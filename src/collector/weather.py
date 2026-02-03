@@ -1,5 +1,9 @@
 from typing import Union
 import requests
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 class hfweather:
     """
@@ -8,10 +12,10 @@ class hfweather:
     具体使用可以用ctrl+p获取参数\n
     初始化类时注意要提供自身的API_KEY和API_HOST
     """
-    def __init__(self, api_key:str, api_host:str):
+    def __init__(self):
         self.source = "hfweather"
-        self.API_KEY = api_key
-        self.API_HOST = api_host
+        self.API_KEY = os.getenv("API_KEY")
+        self.API_HOST = os.getenv("API_HOST")
 
     def collect(self, batch:bool, target: Union[str,list[str]]) -> list:
         if batch:
