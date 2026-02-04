@@ -1,3 +1,5 @@
+#个人感觉这bili的拉取和weather差不多
+#因为get获得的数据都是json
 import base
 import requests
 from datetime import date
