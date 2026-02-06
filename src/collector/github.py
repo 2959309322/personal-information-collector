@@ -45,7 +45,6 @@ class github(base.collector):
     def unpack_html(self,html):
         soup = BeautifulSoup(html, "html.parser")
         articles = soup.find_all('article', class_="Box-row")
-        print(len(articles))
         projects = []
         for idx, article in enumerate(articles, 1):
             try:

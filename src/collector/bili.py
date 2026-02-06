@@ -34,13 +34,14 @@ class bili(base.collector):
         videos = []
         for idx, card in enumerate(cards['data']['list'], 1):
             try:
-                rank = card.get('stat').get('his_rank')
+                if len(videos) == 10: break
+                rank = idx
                 title = card.get('title')
                 up_name = card.get('owner').get('name')
-                view_num = card.get('stat').get('view')
-                reply_num = card.get('stat').get('reply')
-                coin = card.get('stat').get('coin')
-                share = card.get('stat').get('share')
+                view_num = str(card.get('stat').get('view'))
+                reply_num = str(card.get('stat').get('reply'))
+                coin = str(card.get('stat').get('coin'))
+                share = str(card.get('stat').get('share'))
                 url = card.get('short_link_v2')
                 videos.append(base.hotdata(
                     date=date.today(),
