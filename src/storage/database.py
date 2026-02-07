@@ -121,19 +121,19 @@ class CRUD:
                 data = session.query(Weather).all()
                 weather = []
                 for item in data:
-                    weather.append(item.__dict__)
+                    weather.append({c.name: getattr(item, c.name) for c in Weather.__table__.columns})
                 return weather
             elif table == 'GithubTrending':
                 data = session.query(GithubTrending).all()
                 github_trending = []
                 for item in data:
-                    github_trending.append(item.__dict__)
+                    github_trending.append({c.name: getattr(item, c.name) for c in GithubTrending.__table__.columns})
                 return github_trending
             elif table == 'BiliPop':
                 data = session.query(BiliPop).all()
                 bili_pop = []
                 for item in data:
-                    bili_pop.append(item.__dict__)
+                    bili_pop.append({c.name: getattr(item, c.name) for c in BiliPop.__table__.columns})
                 return bili_pop
             session.close()
         except Exception as e:
@@ -150,13 +150,29 @@ class CRUD:
             session = Session()
             if table == 'Weather':
                 if city is None:
-                    return session.query(Weather).get(idx).__dict__ if session.query(Weather).get(idx) is not None else None
+                    data = session.query(Weather).get(idx)
+                    if data:
+                        return {c.name: getattr(data, c.name) for c in Weather.__table__.columns}
+                    else:
+                        return None
                 else:
-                    return session.query(Weather).filter(Weather.City == city).__dict__ if session.query(Weather).filter(Weather.City == city) is not None else None
+                    data = session.query(Weather).filter(Weather.City == city)
+                    if data:
+                        return {c.name: getattr(data, c.name) for c in Weather.__table__.columns}
+                    else:
+                        return None
             elif table == 'GithubTrending':
-                return session.query(GithubTrending).get(idx).__dict__ if session.query(GithubTrending).get(idx) is not None else None
+                data = session.query(GithubTrending).get(idx)
+                if data:
+                    return {c.name: getattr(data, c.name) for c in GithubTrending.__table__.columns}
+                else:
+                    return None
             elif table == 'BiliPop':
-                return session.query(BiliPop).get(idx).__dict__ if session.query(BiliPop).get(idx) is not None else None
+                data = session.query(BiliPop).get(idx)
+                if data:
+                    return {c.name: getattr(data, c.name) for c in BiliPop.__table__.columns}
+                else:
+                    return None
             session.close()
         except Exception as e:
             print(e)
