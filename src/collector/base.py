@@ -2,14 +2,13 @@ import time
 from functools import wraps
 from dataclasses import dataclass
 from datetime import date
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Date
 @dataclass
 class hotdata:
-    date: DateTime
-    name: String
+    date: Date
     name: String
     rank: Integer
-    url: Integer
+    url: String
     info: dict
 
 class collector:

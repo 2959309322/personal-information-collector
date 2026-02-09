@@ -1,7 +1,7 @@
 import json
-
 import database
 import redis
+
 
 class Cache:
     def __init__(self):
@@ -19,8 +19,9 @@ class Cache:
             return json.loads(data)
 
         result = self.db_crud.Read_all("Weather")
-        if result is None: return None
-        rows = [dict(row) for row in result]
+        if result is None: print("天气获取失败");return None
+        rows = list(dict(row) for row in result)
+        if len(rows) == 0: return None
 
         self.Weather.setex(key, 300, json.dumps(rows, ensure_ascii=False, default=str))
         return rows
@@ -32,8 +33,9 @@ class Cache:
             return json.loads(data)
 
         result = self.db_crud.Read_all("GithubTrending")
-        if result is None: return None
-        rows = [dict(row) for row in result]
+        if result is None: print("Github热门获取失败");return None
+        rows = list(dict(row) for row in result)
+        if len(rows) == 0: return None
 
         self.Github.setex(key, 300, json.dumps(rows, ensure_ascii=False, default=str))
         return rows
@@ -45,8 +47,14 @@ class Cache:
             return json.loads(data)
 
         result = self.db_crud.Read_all("BiliPop")
-        if result is None: return None
-        rows = [dict(row) for row in result]
+        if result is None: print("Bilibili热门失败");return None
+        rows = list(dict(row) for row in result)
+        if len(rows) == 0: return None
 
         self.Bili.setex(key, 300, json.dumps(rows, ensure_ascii=False, default=str))
         return rows
+
+    def fresh(self):
+        self.Weather.flushall(asynchronous=True)
+        self.Github.flushall(asynchronous=True)
+        self.Bili.flushall(asynchronous=True)

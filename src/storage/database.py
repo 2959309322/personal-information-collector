@@ -1,13 +1,13 @@
 from typing import Union
-from sqlalchemy import create_engine, text
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import create_engine, text, Date
+from sqlalchemy import Column, Integer, String, DateTime, Text
 from datetime import date
 from sqlalchemy.orm import DeclarativeBase, sessionmaker, Mapped, mapped_column
 
 """
 注意，每一个创建出来的数据表对象只能使用一次！！！！！
 """
-Engine = create_engine("mysql+pymysql://root:123456@localhost:3306/collector")#,echo=True
+Engine = create_engine("mysql+pymysql://root:123456@localhost:3306/collector?charset=utf8mb4")#,echo=True
 
 def shutdown_server():
     Engine.dispose()
@@ -19,7 +19,7 @@ class Weather(Base):
     __tablename__ = 'weather'
 
     Id = Column(Integer, primary_key=True)
-    Date_time:Mapped[date] = mapped_column(DateTime)
+    Date_time:Mapped[date] = mapped_column(Date)
     City = Column(String(20))
     Temperature = Column(String(20))
     Feel = Column(String(20))
@@ -35,11 +35,11 @@ class GithubTrending(Base):
     __tablename__ = 'github_trending'
 
     Id = Column(Integer, primary_key=True)
-    Date_time:Mapped[date] = mapped_column(DateTime)
+    Date_time:Mapped[date] = mapped_column(Date)
     Name = Column(String(500))
     Rank = Column(Integer)
     Url = Column(String(200))
-    Description = Column(String(500))
+    Description = Column(Text)
     Language = Column(String(20))
     Stars = Column(String(20))
 
@@ -68,8 +68,8 @@ class BiliPop(Base):
     __tablename__ = 'bili_pop'
 
     Id = Column(Integer, primary_key=True)
-    Date_time:Mapped[date] = mapped_column(DateTime)
-    Title = Column(String(500))
+    Date_time:Mapped[date] = mapped_column(Date)
+    Title = Column(Text)
     Rank = Column(Integer)
     Url = Column(String(200))
     Up_name = Column(String(100))

@@ -1,8 +1,7 @@
 requests
-beautifulsoup
+beautifulsoup4
 pandas
 fastapi
 uvicorn
 sqlalchemy
-python-dotenv
 pymysql
