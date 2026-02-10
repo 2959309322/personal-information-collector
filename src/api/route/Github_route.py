@@ -27,7 +27,7 @@ c = cache.Cache()
 async def get_github():#单个城市天气获取
     git_data = c.Github_get_all()
     github_list = []
-    print(git_data)
+    # print(git_data)
     if git_data is None:
         git_data = git.collect()
         for item in git_data:
@@ -40,8 +40,8 @@ async def get_github():#单个城市天气获取
             github_list.append(data)
         return github_list
     elif git_data[-1]['Date_time'].date() != today:
-        print(git_data[-1]['Date_time'])
-        print(today)
+        # print(git_data[-1]['Date_time'])
+        # print(today)
         git_data = git.collect()
         for item in git_data:
             data = GithubResponse(Date_time=item.date, Rank=item.rank, Name=item.name,

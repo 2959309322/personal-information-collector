@@ -28,7 +28,7 @@ c = cache.Cache()
 async def get_bili():#单个城市天气获取
     bili_data = c.Bili_get_all()
     bili_list = []
-    print(bili_data)
+    # print(bili_data)
     if bili_data is None:
         bili_data = bili.collect()
         for item in bili_data:
@@ -42,8 +42,8 @@ async def get_bili():#单个城市天气获取
             bili_list.append(data)
         return bili_list
     elif bili_data[-1]['Date_time'].date() != today:
-        print(bili_data[-1]['Date_time'])
-        print(today)
+        # print(bili_data[-1]['Date_time'])
+        # print(today)
         bili_data = bili.collect()
         for item in bili_data:
             data = BiliResponse(Date_time=item.date, Rank=item.rank, Title=item.name,

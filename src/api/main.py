@@ -18,6 +18,17 @@ app.include_router(bili_router)
 async def root():
     return {"message": "这是一个信息获取助手。可以去 /docs 看看。"}
 
+@app.post("/refresh")
+async def refresh():
+    c = cache.Cache()
+    c.fresh()
+    """
+    这个post也需要在docs里面去手动操作
+    """
+    print("刷新成功")
+    return 0
+
+
 if __name__ == "__main__":
     import uvicorn
     c = cache.Cache()
